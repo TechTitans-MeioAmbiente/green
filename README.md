@@ -1,6 +1,8 @@
 Fluxo de Trabalho para Contribuições
 Para manter a integridade e a organização do código, seguimos um fluxo de trabalho específico para fazer alterações e implementações no projeto. As 'branches' principais são 'dev' e 'producao'. Abaixo, você encontrará as etapas para fazer contribuições.
 
+NOTA: Apenas Igor e Matheus que darão o push para a main. Por isso que estamos utilizando a branch producao para teste, quando a branch producao estiver rodando "redondinha", os DevOps darão push na main que dará o trigger para modificar o app em operação!
+
 1. Trabalhando na branch "dev"
 Faça todas as alterações de desenvolvimento na branch "dev". Siga os passos abaixo para enviar suas alterações:
 
@@ -10,7 +12,7 @@ Copy code
 git clone URL_DO_REPOSITORIO
 
 # Navegue até o diretório do repositório
-cd NOME_DO_REPOSITORIO
+cd green
 
 # Mude para a branch 'dev'
 git checkout dev
