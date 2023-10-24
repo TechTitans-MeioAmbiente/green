@@ -2,7 +2,7 @@
 
 #### O aplicativo x tem como problemática a emissão de CO<sub>2</sub> por escritórios e apresentamos a solução com o plantio de árvores por parte dos usuários não relacionados diretamente aos escritórios.
 
-#### Definimos um escritório como sendo uma área compartilhada por vários funcionários que não emite CO<sub>2</sub> via emissões diretas (i.e. queima de combustíveis fósseis). Consideramos também que estes escritórios emitem CO<sub>2</sub> das seguintes formas:
+#### Definimos um escritório como sendo uma área compartilhada por vários funcionários que não emite CO<sub>2</sub> via emissões diretas (i.e. queima de combustíveis fósseis). Consideramos também que estes escritórios emitem CO<sub>2</sub> das seguintes formas: 
 
 - Translado dos funcionários até a empresa;
 - Ar-condicionados;
