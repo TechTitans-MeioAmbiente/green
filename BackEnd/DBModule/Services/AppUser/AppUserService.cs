@@ -15,18 +15,6 @@ namespace TechTitansAPI.Services.AppUser
             _context = context;
         }
 
-		public async Task<string> RegisterUserAsync(AppUserDTO dto)
-		{
-			var userModel = new AppUserModel
-			{
-				Name = dto.Name,
-				Cpf = dto.Cpf,
-			};
-			await _context.AppUsers.AddAsync(userModel);
-			await _context.SaveChangesAsync();
-			return ("registred");
-		}
-
 		public async Task<AppUserModel?> GetUserAsync(int id)
         {
             var user = await _context.AppUsers
@@ -38,6 +26,8 @@ namespace TechTitansAPI.Services.AppUser
                     Id = u.Id,
                     Name = u.Name,
                     Cpf = u.Cpf,
+					Password = u.Password,
+					Email = u.Email,
                     Trees = u.Trees.Select(t => new TreeModel
                     {
                         AbsorbedCo2 = t.AbsorbedCo2,
@@ -76,8 +66,34 @@ namespace TechTitansAPI.Services.AppUser
 				}).ToListAsync();
 			return trees;
 		}
+        public async Task<string> RegisterUserAsync(AppUserDTO dto)
+        {
+            var userModel = new AppUserModel
+            {
+                Name = dto.Name,
+                Cpf = dto.Cpf,
+            };
+            await _context.AppUsers.AddAsync(userModel);
+            await _context.SaveChangesAsync();
+            return ("registred");
+        }
+        public async Task<string?> UpdateUserAsync(AppUserUpdateDTO dto, int id)
+        {
+            var user = await _context.AppUsers.FirstOrDefaultAsync(t => t.Id == id);
+            if (user == null) return null;
 
-		public async Task<string?> DeleteUserAsync(int id)
+            var trees = await _context.Trees.Where(t => dto.TreeIDs.Contains(t.Id)).ToListAsync();
+
+            if (trees.Any()) { user.Trees.AddRange(trees); }
+            user.Cpf = dto.Cpf;
+            user.Name = dto.Name;
+            user.Password = dto.Name;
+
+            await _context.SaveChangesAsync();
+            return "updated";
+
+        }
+        public async Task<string?> DeleteUserAsync(int id)
 		{
 			var user = await _context.AppUsers.FindAsync(id);
 			if (user == null)
@@ -89,21 +105,7 @@ namespace TechTitansAPI.Services.AppUser
 			return "deleted";
 		}
 
-		public async Task<string?> UpdateUserAsync(AppUserUpdateDTO dto, int id)
-		{
-			var user = await _context.AppUsers.FirstOrDefaultAsync(t => t.Id == id);
-			if (user == null) return null;
-
-            var trees = await _context.Trees.Where(t => dto.TreeIDs.Contains(t.Id)).ToListAsync();
-			 
-			user.Trees.AddRange(trees); 
-			user.Cpf = dto.Cpf; 
-			user.Name = dto.Name;
-			 
-			await _context.SaveChangesAsync();
-			return "updated";
-
-        }
+		
 		
 	}
 }

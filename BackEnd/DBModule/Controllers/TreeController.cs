@@ -64,7 +64,7 @@ namespace TechTitansAPI.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
 		public async Task<ActionResult<string>> DeleteTreeAsync(int id)
 		{
 			try

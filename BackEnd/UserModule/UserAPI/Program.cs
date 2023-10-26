@@ -1,6 +1,5 @@
-
-using CompanyModule.Calculator.CalculatorServices;
-using CompanyModule.HTTPServices;
+using UserAPI.Services.Tree;
+using UserAPI.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +11,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<ICalculatorService, CalculatorService>();
-builder.Services.AddScoped<IHTTPService, HTTPService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITreeService, TreeService>();
 builder.Services.AddScoped<HttpClient>();
+
 
 var app = builder.Build();
 
@@ -28,7 +28,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 
 app.MapControllers();
 

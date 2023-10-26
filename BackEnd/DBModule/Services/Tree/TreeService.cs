@@ -63,8 +63,8 @@ namespace TechTitansAPI.Services.Tree
             if (tree is null) return null; 
              
             var pictures = await _context.Pictures.Where(x => dto.PictureIDs.Contains(x.Id)).ToListAsync(); 
-
-            tree.Pictures.AddRange(pictures); 
+             
+            if (pictures.Any()) tree.Pictures.AddRange(pictures);
             tree.ScientificName = dto.ScientificName; 
             tree.CommonName = dto.CommonName; 
             tree.Zoochory = dto.Zoochory;

@@ -15,7 +15,7 @@
             double gwpCh4 = 21;
             double gwpN2o = 298;
 
-            double LittersSpent = AverageDailyDistance / AverageConsumption * 220 * 2; //Em litros
+            double LittersSpent = (AverageDailyDistance / AverageConsumption) * 220 * 2; //Em litros
 
             // Calculando a emissão de apenas 1 carro
             double emission = ((LittersSpent * efCo2) / 1000) /*/toneladas de Co2/*/ +

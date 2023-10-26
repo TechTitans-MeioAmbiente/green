@@ -58,7 +58,7 @@ namespace TechTitansAPI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<string>> DeleteCompanyAsync(int id)
         {
             try
