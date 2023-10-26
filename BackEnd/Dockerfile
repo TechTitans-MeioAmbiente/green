@@ -21,5 +21,5 @@ RUN dotnet publish "TechTitansAPI.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TechTitansAPI.dll"] 
+ENTRYPOINT ["dotnet", "TechTitansAPI.dll"]  
 
