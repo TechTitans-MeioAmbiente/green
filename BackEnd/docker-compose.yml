@@ -3,7 +3,7 @@ version: '3'
 services:
   app_pessoal:
     build: 
-      context: ./DBModule  
+      context: ./UserModule/UserAPI  
       dockerfile: Dockerfile 
     container_name: green_pessoal_API
     expose:
@@ -16,6 +16,14 @@ services:
     container_name: green_empresa_API
     expose:
       - "8082"
+
+  modulodb:
+    build: 
+     context: ./DBModule
+     dockerfile: Dockerfile 
+    container_name: DBModule_API
+    expose:
+      - "8083"
 
 # como as apis nao se conversam entre si não preciso de bridge
 # networks:
