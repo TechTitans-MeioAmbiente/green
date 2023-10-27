@@ -45,6 +45,21 @@ namespace TechTitansAPI.Controllers
             }
 
         }
+        [HttpPost("login-cnpj")]
+        public async Task<ActionResult<string>> CompanyLoginByCNPJAsync(string cnpj, string password)
+        {
+            var response = await _service.CompanyLoginByCNPJAsync(cnpj, password); 
+            if (response == null) return NotFound("Company not found");
+            return response == "access allowed" ? Ok(response) : BadRequest(response);
+        } 
+        [HttpPost("login-email")]
+        public async Task<ActionResult<string>> CompanyLoginByEmailAsync(string email, string password)
+        {
+            var response = await _service.CompanyLoginByCNPJAsync(email, password); 
+            if (response == null) return NotFound("Company not found");
+            return response == "access allowed" ? Ok(response) : BadRequest(response);
+        } 
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult<CompanyModel>> UpdateCompany(int id, CompanyDTO request)

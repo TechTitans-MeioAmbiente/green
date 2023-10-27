@@ -5,12 +5,12 @@ namespace TechTitansAPI.Services.Company
 {
 	public interface ICompanyService
 	{
-        Task<string> RegisterCompanyAsync(CompanyDTO dto);
-
         Task<CompanyModel?> GetCompanyAsync(int id);
-
+        Task<string> RegisterCompanyAsync(CompanyDTO dto);
+        Task<string> CompanyLoginByCNPJAsync(string cnpj, string password);
+        Task<string> CompanyLoginByEmailAsync(string email, string password);
+        Task<string?> UpdateCompanyAsync(int id, CompanyDTO request);
         Task<string?> DeleteCompanyAsync(int id);
 
-        Task<CompanyModel?> UpdateCompanyAsync(int id, CompanyDTO request);
     }
 }

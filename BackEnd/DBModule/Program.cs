@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using TechTitansAPI.Data;
+using TechTitansAPI.SecurityServices;
 using TechTitansAPI.Services.AppUser;
 using TechTitansAPI.Services.Company;
 using TechTitansAPI.Services.Picture;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<ITreeService, TreeService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IPictureService, PictureService>();
+builder.Services.AddScoped<ISecurityService, SecurityService>();
 
 
 var app = builder.Build();
