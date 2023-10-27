@@ -1,8 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 
 namespace CompanyModule.HTTPServices
@@ -10,6 +12,7 @@ namespace CompanyModule.HTTPServices
     public class HTTPService : IHTTPService
     {
         private readonly HttpClient _httpClient;
+       
         private readonly string _urlAPI = "https://localhost:7122/api/Company/";
 
         public HTTPService(HttpClient httpClient)
@@ -45,12 +48,16 @@ namespace CompanyModule.HTTPServices
             var urlAPI = _urlAPI; 
             try
             {
+                
                 string jsonContent = JsonSerializer.Serialize(dto);
+
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync(urlAPI, content);
 
-                if (response.IsSuccessStatusCode) return await response.Content.ReadAsStringAsync();
-                else return null;
+                if (response.IsSuccessStatusCode) 
+                    return await response.Content.ReadAsStringAsync();
+                else 
+                    return null;
             } 
             catch(Exception ex)
             {
@@ -100,6 +107,60 @@ namespace CompanyModule.HTTPServices
 
         }
 
-        
+        public async Task<string> CompanyLoginByCNPJHTTP(LoginCNPJDTO dto)
+        {
+            var urlAPI = $"{_urlAPI}login-cnpj";
+
+            try
+            {
+
+                string jsonContent = JsonSerializer.Serialize(dto);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync(urlAPI, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    return responseContent;
+                }
+                else
+                {
+                    return "authentication failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<string> CompanyLoginByEmailHTTP(LoginEmailDTO dto)
+        {
+            var urlAPI = $"{_urlAPI}login-email";
+
+            try
+            {
+                
+                string jsonContent = JsonSerializer.Serialize(dto);
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync(urlAPI, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    return responseContent;
+                }
+                else
+                {
+                    return "authentication failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }

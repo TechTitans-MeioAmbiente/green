@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 
 namespace CompanyModule.Controllers
@@ -44,6 +45,36 @@ namespace CompanyModule.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("login-cnpj")] 
+        public async Task<ActionResult<string>> CompanyLoginByCNPJHTTP(LoginCNPJDTO dto)
+        {
+            try
+            {
+                var response = await _service.CompanyLoginByCNPJHTTP(dto);
+                if (response == "Company not found") return NotFound("Company not found");
+                return response == "access allowed" ? Ok(response) : BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("login-email")]
+        public async Task<ActionResult<string>> CompanyLoginByEmailHTTP(LoginEmailDTO dto)
+        {
+            try
+            {
+                var response = await _service.CompanyLoginByEmailHTTP(dto);
+                if (response == "Company not found") return NotFound("Company not found");
+                return response == "access allowed" ? Ok(response) : BadRequest(response);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<CompanyModel>> UpdateCompany(int id, CompanyDTO request)
         {
