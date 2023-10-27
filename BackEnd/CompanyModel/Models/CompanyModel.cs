@@ -16,5 +16,11 @@ namespace TechTitansAPI.Models
 
         [JsonPropertyName("cnpj")]
         public string Cnpj { get; set; }
+        
+        [JsonPropertyName("passwordHash")]
+        public byte[] PasswordHash { get; set; }
+
+        [JsonPropertyName("passwordSalt")]
+        public byte[] PasswordSalt { get; set; }
     }
 }

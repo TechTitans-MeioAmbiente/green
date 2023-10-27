@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.Services.AppUser;
 
@@ -51,7 +52,7 @@ namespace TechTitansAPI.Controllers
 			try
 			{
 				var response = await _service.RegisterUserAsync(dto);
-				if (response != "registred") return NotFound("Error");
+				if (response != "registred") return NotFound(response);
 				return Ok(response);
 			}
 			catch (Exception e)
@@ -60,7 +61,24 @@ namespace TechTitansAPI.Controllers
 			}
 
 		}
-		[HttpPut("update/{id}")] 
+		[HttpPost("login-cpf")] 
+		public async Task<ActionResult<string>> UserLoginByCPFAsync(LoginCPFDTO dto)
+		{
+			var response = await _service.UserLoginByCPFAsync(dto);
+			if (response == null) return NotFound("User not found");
+			return response == "access allowed" ? Ok(response) : BadRequest(response);
+
+        }
+		[HttpPost("login-email")]
+		public async Task<ActionResult<string>> UserLoginByEmailAsync(LoginEmailDTO dto)
+        {
+			var response = await _service.UserLoginByEmailAsync(dto);
+			if (response == null) return NotFound("User not found");
+			return response == "access allowed" ? Ok(response) : BadRequest(response);
+        }
+
+
+        [HttpPut("update/{id}")] 
 		public async Task<ActionResult<string>> UpdateUserAsync(AppUserUpdateDTO dto, int id)
 		{
 			try
