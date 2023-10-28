@@ -18,7 +18,7 @@ namespace UserAPI.Controllers
         }
 
         [HttpGet("user/{id}")]
-        public async Task<ActionResult<string>> GetUser(int id)
+        public async Task<ActionResult<AppUserGetDTO>> GetUser(int id)
         {
             try
             {
@@ -32,12 +32,12 @@ namespace UserAPI.Controllers
         }
 
         [HttpGet("tree/{id}")]
-        public async Task<ActionResult<string>> GetTreesByUserId(int id)
+        public async Task<ActionResult<List<TreeDTO>>> GetTreesByUserId(int id)
         {
             try
             {
                 var result = await _userService.GetTreesByUserIdHTTPAsync(id);
-                return result;
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -51,6 +51,7 @@ namespace UserAPI.Controllers
             try
             {
                 var response = await _userService.RegisterUserHTTP(dto);
+                if (response != "registred") return NotFound(response);
                 return response;
             }
             catch (Exception ex)
@@ -66,7 +67,8 @@ namespace UserAPI.Controllers
             try
             {
                 var response = await _userService.UpdateUserHTTP(dto, id);
-                return response;
+                if (response == "User not found") return NotFound(response);
+                return response == "updated" ? Ok(response) : BadRequest(response);
             }
             catch (Exception e)
             {
@@ -80,7 +82,8 @@ namespace UserAPI.Controllers
             try
             {
                 var response = await _userService.DeleteUserHTTPAsync(id);
-                return response;
+                if (response == "User not found") return NotFound(response);
+                return response == "deleted" ? Ok(response) : BadRequest(response);
             }
             catch (Exception e)
             {

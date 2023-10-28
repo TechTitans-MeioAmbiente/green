@@ -2,6 +2,8 @@
 
 using TechTitansAPI.Data;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
+using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.Models;
 
 namespace TechTitansAPI.Services.Tree
@@ -14,11 +16,11 @@ namespace TechTitansAPI.Services.Tree
         {
             _context = context;
         }
-        public async Task<TreeModel?> GetTreeAsync(int id)
+        public async Task<TreeGetDTO?> GetTreeAsync(int id)
         {
             var tree = await _context.Trees
                  .Where(t => t.Id == id)
-                 .Select(t => new TreeModel
+                 .Select(t => new TreeGetDTO
                  {
                      Id = t.Id,
                      AbsorbedCo2 = t.AbsorbedCo2,
@@ -27,7 +29,7 @@ namespace TechTitansAPI.Services.Tree
                      UserId = t.UserId,
                      TreeExtinctionIndex = t.TreeExtinctionIndex,
                      Zoochory = t.Zoochory,
-                     Pictures = t.Pictures,
+                     PicturesIds = t.Pictures.Select(p => p.Id).ToList(),
                  }) 
                  .FirstOrDefaultAsync();
             if (tree is null) return null;
@@ -62,7 +64,7 @@ namespace TechTitansAPI.Services.Tree
             var tree = await _context.Trees.FirstOrDefaultAsync(x => x.Id== id);
             if (tree is null) return null; 
              
-            var pictures = await _context.Pictures.Where(x => dto.PictureIDs.Contains(x.Id)).ToListAsync(); 
+            var pictures = await _context.Pictures.Where(x => dto.PictureIds.Contains(x.Id)).ToListAsync(); 
              
             if (pictures.Any()) tree.Pictures.AddRange(pictures);
             tree.ScientificName = dto.ScientificName; 

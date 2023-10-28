@@ -1,50 +1,40 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 
 using TechTitansAPI.Data;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
+using TechTitansAPI.DTOs.PutDTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
+using TechTitansAPI.SecurityServices;
 
 namespace TechTitansAPI.Services.AppUser
 {
     public class AppUserService : IAppUserService
     {
         private readonly DataContext _context;
+        private readonly ISecurityService _securityService;
 
-        public AppUserService(DataContext context)
+        public AppUserService(DataContext context, ISecurityService securityService)
         {
             _context = context;
+            _securityService = securityService;
         }
 
-		public async Task<AppUserModel?> GetUserAsync(int id)
+        public async Task<AppUserGetDTO?> GetUserAsync(int id)
         {
             var user = await _context.AppUsers
                 .Where(u => u.Id == id)
                 .Include(u => u.Trees)
                 .ThenInclude(t => t.Pictures)
-                .Select(u => new AppUserModel
+                .Select(u => new AppUserGetDTO
                 {
                     Id = u.Id,
                     Name = u.Name,
                     Cpf = u.Cpf,
-					Password = u.Password,
-					Email = u.Email,
-                    Trees = u.Trees.Select(t => new TreeModel
-                    {
-                        AbsorbedCo2 = t.AbsorbedCo2,
-                        CommonName = t.CommonName,
-                        Id = t.Id,
-                        AppUser = t.AppUser,
-                        ScientificName = t.ScientificName,
-                        TreeExtinctionIndex = t.TreeExtinctionIndex,
-                        UserId = t.UserId,
-                        Zoochory = t.Zoochory,
-                        Pictures = t.Pictures.Select(p => new PictureModel
-                        {
-                            Id = p.Id,
-                            Image = p.Image,
-                            TreeId = p.TreeId
-                        }).ToList()
-                    }).ToList()
+                    Email = u.Email,
+                    TreesIds = u.Trees.Select(t => t.Id).ToList()
                 }).FirstOrDefaultAsync();
 
             return user;
@@ -66,33 +56,83 @@ namespace TechTitansAPI.Services.AppUser
 				}).ToListAsync();
 			return trees;
 		}
+
+
         public async Task<string> RegisterUserAsync(AppUserDTO dto)
         {
-            var userModel = new AppUserModel
+            try
             {
-                Name = dto.Name,
-                Cpf = dto.Cpf,
-            };
-            await _context.AppUsers.AddAsync(userModel);
-            await _context.SaveChangesAsync();
-            return ("registred");
+
+            _securityService.CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                var userModel = new AppUserModel
+                {
+                    Name = dto.Name,
+                    Cpf = dto.Cpf, 
+                    Email = dto.Email,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt
+                };
+                await _context.AppUsers.AddAsync(userModel);
+                await _context.SaveChangesAsync();
+
+                return ("registred");
+            }
+            catch (DbUpdateException ex)
+            {
+                // Examine a exceção interna para obter detalhes específicos do erro
+                Exception innerException = ex.InnerException;
+                if (innerException != null)
+                {
+                    return("Inner Exception: " + innerException.Message);
+                    
+                }
+                return innerException.Message;
+            }
         }
+
+
+        public async Task<string> UserLoginByCPFAsync(LoginCPFDTO dto)
+        {
+            var user = await _context.AppUsers.FirstOrDefaultAsync(x => x.Cpf.ToLower().Equals(dto.Cpf.ToLower()));
+            if (user == null) return null;
+            if (!_securityService.VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt)) return ("wrong password");
+            return "access allowed";
+        }
+
+        public async Task<string> UserLoginByEmailAsync(LoginEmailDTO dto)
+        {
+            var user = await _context.AppUsers.FirstOrDefaultAsync(x => x.Email.ToLower().Equals(dto.Email.ToLower()));
+            if (user == null) return null;
+            if (!_securityService.VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt)) return ("wrong password");
+            return "access allowed";
+        }
+
+
         public async Task<string?> UpdateUserAsync(AppUserUpdateDTO dto, int id)
         {
             var user = await _context.AppUsers.FirstOrDefaultAsync(t => t.Id == id);
             if (user == null) return null;
+            if (!_securityService.VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt)) return ("access denied");
+             
+            
 
             var trees = await _context.Trees.Where(t => dto.TreeIDs.Contains(t.Id)).ToListAsync();
 
-            if (trees.Any()) { user.Trees.AddRange(trees); }
+            if (trees.Any()) { user.Trees.AddRange(trees); } 
+            user.Email = dto.Email;
             user.Cpf = dto.Cpf;
             user.Name = dto.Name;
-            user.Password = dto.Name;
+            _securityService.CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
             await _context.SaveChangesAsync();
             return "updated";
 
         }
+
+
         public async Task<string?> DeleteUserAsync(int id)
 		{
 			var user = await _context.AppUsers.FindAsync(id);
@@ -105,7 +145,6 @@ namespace TechTitansAPI.Services.AppUser
 			return "deleted";
 		}
 
-		
-		
-	}
+        
+    }
 }
