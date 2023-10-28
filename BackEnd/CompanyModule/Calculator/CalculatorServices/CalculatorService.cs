@@ -4,8 +4,9 @@ namespace CompanyModule.Calculator.CalculatorServices
 {
     public class CalculatorService : ICalculatorService
     {
-        public double CalculateTotalCarEmissions(CarCalculatorModel model)
-        {
+        public double CalculateTotalCarEmissions(CarCalculatorModel model) 
+        { 
+
             return Emissions.DirectEmissionCars(model.NumberCars, model.AverageConsumption, model.AverageDailyDistance);
         }
         public double CalculateTotalAirConditioningEmissions(AirConditioningCalculatorModel model)

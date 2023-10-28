@@ -2,6 +2,8 @@
 using CompanyModule.Calculator.CalculatorServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace CompanyModule.Controllers
 {
@@ -14,6 +16,14 @@ namespace CompanyModule.Controllers
         public CalculatorController(ICalculatorService service)
         {
             _service = service;
+
+            // Configure a opção para permitir números especiais durante a serialização JSON
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
+            {
+                NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
+            };
+
+           
         }
 
         [HttpPost("car")] 
