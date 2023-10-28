@@ -17,7 +17,11 @@ namespace CompanyModule.HTTPServices
         private readonly HttpClient _httpClient;
         readonly string urlEmail = "https://localhost:7270/api/email";
        
-        private readonly string _urlAPI = "https://localhost:7122/api/Company/";
+        private readonly string _urlAPI = "http://modulodb:80/api/Company/";//Isso serve para entrar no container 
+        //chamado modulodb, que é o do banco de dados, se for usar localhost vai dar pau pq localmente no docker, 
+        //não há nada na porta 5008 - por isso é necessário entrar no container gerado na porta correta e fazer o 
+        //acesso (note que utilizamos  a porta 80 para isso e nao a 5008 pois a 5008 está exposta no localhost 
+        //para entrar no container) 
 
         public HTTPService(HttpClient httpClient)
         {
