@@ -6,7 +6,7 @@ namespace TechTitansAPI.Services.AppUser
 {
     public interface IAppUserService
     {
-        Task<AppUserModel?> GetUserAsync(int id);
+        Task<AppUserGetDTO?> GetUserAsync(int id);
 		Task<List<TreeDTO>?> GetTreesByUserIdAsync (int id);
         Task<string> RegisterUserAsync(AppUserDTO dto);
         Task<string> UserLoginByCPFAsync(LoginCPFDTO dto);

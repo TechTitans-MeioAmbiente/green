@@ -20,35 +20,19 @@ namespace TechTitansAPI.Services.AppUser
             _securityService = securityService;
         }
 
-        public async Task<AppUserModel?> GetUserAsync(int id)
+        public async Task<AppUserGetDTO?> GetUserAsync(int id)
         {
             var user = await _context.AppUsers
                 .Where(u => u.Id == id)
                 .Include(u => u.Trees)
                 .ThenInclude(t => t.Pictures)
-                .Select(u => new AppUserModel
+                .Select(u => new AppUserGetDTO
                 {
                     Id = u.Id,
                     Name = u.Name,
                     Cpf = u.Cpf,
-					Email = u.Email,
-                    Trees = u.Trees.Select(t => new TreeModel
-                    {
-                        AbsorbedCo2 = t.AbsorbedCo2,
-                        CommonName = t.CommonName,
-                        Id = t.Id,
-                        AppUser = t.AppUser,
-                        ScientificName = t.ScientificName,
-                        TreeExtinctionIndex = t.TreeExtinctionIndex,
-                        UserId = t.UserId,
-                        Zoochory = t.Zoochory,
-                        Pictures = t.Pictures.Select(p => new PictureModel
-                        {
-                            Id = p.Id,
-                            Image = p.Image,
-                            TreeId = p.TreeId
-                        }).ToList()
-                    }).ToList()
+                    Email = u.Email,
+                    TreesIds = u.Trees.Select(t => t.Id).ToList()
                 }).FirstOrDefaultAsync();
 
             return user;

@@ -19,7 +19,7 @@ namespace TechTitansAPI.Controllers
 			_service = service;
 		}
 		[HttpGet("user/{id}")] 
-		public async Task<ActionResult<AppUserModel>> GetUserAsync(int id)
+		public async Task<ActionResult<AppUserGetDTO>> GetUserAsync(int id)
 		{
 			try
 			{

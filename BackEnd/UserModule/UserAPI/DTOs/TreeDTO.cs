@@ -20,5 +20,6 @@ namespace TechTitansAPI.DTOs
 
         [JsonPropertyName("ownerCPF")]
         public string OwnerCPF { get; set; }
+
 	}
 }

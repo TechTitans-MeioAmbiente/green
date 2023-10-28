@@ -13,7 +13,10 @@
 		public int Zoochory { get; set; }
 		public double AbsorbedCo2 { get; set; }
 
-		public int UserId { get; set; }
+		public string Geolocation { get; set; }
+
+
+        public int UserId { get; set; }
 
 		public AppUserModel AppUser { get; set; }
 
