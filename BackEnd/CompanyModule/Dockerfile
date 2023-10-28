@@ -1,6 +1,7 @@
 # Use a imagem base do ASP.NET Core
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
+COPY ["appsettings.json", "appsettings.json"]
 EXPOSE 8082
 
 # Use a imagem base do SDK do ASP.NET Core para compilar o aplicativo

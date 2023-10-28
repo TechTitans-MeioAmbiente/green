@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile 
     container_name: green_pessoal_API
     ports:
-      - "8081:8081"
+      - "8081:80"
     networks:
       - network
 
@@ -17,7 +17,7 @@ services:
      dockerfile: Dockerfile 
     container_name: green_empresa_API
     ports:
-      - "8082:8082"
+      - "8082:80"
     networks:
       - network
 
@@ -28,7 +28,7 @@ services:
      dockerfile: Dockerfile 
     container_name: DBModule_API
     ports:
-      - "8083:8083"
+      - "5008:80"
     networks:
       - network
 
