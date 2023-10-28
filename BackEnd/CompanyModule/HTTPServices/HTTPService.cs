@@ -13,7 +13,7 @@ namespace CompanyModule.HTTPServices
     {
         private readonly HttpClient _httpClient;
        
-        private readonly string _urlAPI = "https://localhost:7122/api/Company/";
+        private readonly string _urlAPI = "http://localhost:5008/api/Company/";
 
         public HTTPService(HttpClient httpClient)
         {

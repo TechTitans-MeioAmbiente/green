@@ -8,7 +8,7 @@ namespace UserAPI.Services.Tree
     public class TreeService : ITreeService
     { 
         private readonly HttpClient _httpClient; 
-        private readonly string _urlAPI = "https://localhost:7122/api/Tree/";
+        private readonly string _urlAPI = "http://localhost:5008/api/Tree/";
 
         public TreeService(HttpClient httpClient)
         {

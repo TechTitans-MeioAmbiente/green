@@ -12,7 +12,7 @@ namespace UserAPI.Services.User
 {
     public class UserService : IUserService
     {
-        readonly string urlApiBanco = "https://localhost:7122/api/AppUser/";
+        readonly string urlApiBanco = "http://localhost:5008/api/AppUser/";
 
 
 
