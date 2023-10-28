@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.JSInterop.Infrastructure;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -14,6 +15,7 @@ namespace CompanyModule.HTTPServices
     public class HTTPService : IHTTPService
     {
         private readonly HttpClient _httpClient;
+        readonly string urlEmail = "https://localhost:7270/api/email";
        
         private readonly string _urlAPI = "https://localhost:7122/api/Company/";
 
@@ -56,10 +58,33 @@ namespace CompanyModule.HTTPServices
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync(urlAPI, content);
 
-                if (response.IsSuccessStatusCode) 
-                    return await response.Content.ReadAsStringAsync();
-                else 
+                if (response.IsSuccessStatusCode)
+                {
+                    var emailContent = new
+                    {
+                        to = dto.Email, 
+                        subject = "Bem-vindo ao Nosso Aplicativo",
+                        body = "Olá, obrigado por se registrar em nosso aplicativo. Bem-vindo(a)!"
+                    };
+
+                    string emailJsonContent = JsonSerializer.Serialize(emailContent);
+                    var emailBody = new StringContent(emailJsonContent, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage emailResponse = await _httpClient.PostAsync(urlEmail, emailBody);
+
+                    if (emailResponse.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        return "Empresa registrada com sucesso, mas houve um problema ao enviar o email de boas-vindas.";
+                    }
+                }
+                else
+                {
                     return null;
+                }
             } 
             catch(Exception ex)
             {
@@ -78,16 +103,35 @@ namespace CompanyModule.HTTPServices
 
                 if (response.IsSuccessStatusCode)
                 {
-                     return await response.Content.ReadAsStringAsync();
+                    var emailContent = new
+                    {
+                        to = dto.Email,
+                        subject = "Atualização de Dados da Empresa",
+                        body = "As informações da sua empresa foram atualizadas com sucesso."
+                    };
+
+                    string emailJsonContent = JsonSerializer.Serialize(emailContent);
+                    var emailBody = new StringContent(emailJsonContent, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage emailResponse = await _httpClient.PostAsync(urlEmail, emailBody);
+
+                    if (emailResponse.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        return "Empresa atualizada com sucesso, mas houve um problema ao enviar o email de confirmação.";
+                    }
                 }
                 else if ((int)response.StatusCode == 404)
                 {
-                    return "Company not found";
+                    return "Empresa não encontrada";
                 }
                 return "error";
-                
 
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 throw ex;
             }

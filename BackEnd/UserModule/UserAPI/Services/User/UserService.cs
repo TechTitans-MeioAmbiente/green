@@ -13,6 +13,7 @@ namespace UserAPI.Services.User
     public class UserService : IUserService
     {
         readonly string urlApiBanco = "https://localhost:7122/api/AppUser/";
+        readonly string urlEmail = "https://localhost:7270/api/email";
         private readonly HttpClient _httpClient;
 
         public UserService(HttpClient httpClient)
@@ -67,10 +68,35 @@ namespace UserAPI.Services.User
                 string jsonContent = JsonSerializer.Serialize(dto);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync(urlApiBanco, content); 
+                HttpResponseMessage response = await _httpClient.PostAsync(urlApiBanco, content);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    var emailContent = new
+                    {
+                        to = dto.Email,
+                        subject = $"Bem-vindo ao Nosso Aplicativo {dto.Name}",
+                        body = "Olá, obrigado por se registrar no nosso aplicativo. Bem-vindo(a)!"
+                    };
 
-                return await response.Content.ReadAsStringAsync();
+                    string emailJsonContent = JsonSerializer.Serialize(emailContent);
+                    var emailBody = new StringContent(emailJsonContent, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage emailResponse = await _httpClient.PostAsync(urlEmail, emailBody);
+
+                    if (emailResponse.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        return "Usuário registrado com sucesso, mas houve um problema ao enviar o email de boas-vindas.";
+                    }
+                }
+                else
+                {
+                    return "Houve um erro no registro do usuário.";
+                }
             }
             catch (Exception ex)
             {
@@ -88,7 +114,33 @@ namespace UserAPI.Services.User
 
                 HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"{urlApiBanco}update/{id}", dto);
 
-                return await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    var emailContent = new
+                    {
+                        to = dto.Email,
+                        subject = "Atualização de Dados",
+                        body = "Suas informações de usuário foram atualizadas com sucesso."
+                    };
+
+                    string emailJsonContent = JsonSerializer.Serialize(emailContent);
+                    var emailBody = new StringContent(emailJsonContent, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage emailResponse = await _httpClient.PostAsync(urlEmail, emailBody);
+
+                    if (emailResponse.IsSuccessStatusCode)
+                    {
+                        return await response.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        return "Usuário atualizado com sucesso, mas houve um problema ao enviar o email de confirmação.";
+                    }
+                }
+                else
+                {
+                    return "Houve um erro na atualização do usuário.";
+                }
             }
             catch (Exception ex)
             {
