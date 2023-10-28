@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
+using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.Services.Tree;
 
 namespace TechTitansAPI.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class TreeController : ControllerBase
 	{
@@ -19,7 +21,7 @@ namespace TechTitansAPI.Controllers
 		}
 
 		[HttpGet("tree/{id}")]
-		public async Task<ActionResult<TreeModel>> GetTreeAsync(int id)
+		public async Task<ActionResult<TreeGetDTO>> GetTreeAsync(int id)
 		{
 			try
 			{

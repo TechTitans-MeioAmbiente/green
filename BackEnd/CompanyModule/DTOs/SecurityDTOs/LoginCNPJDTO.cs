@@ -2,8 +2,8 @@
 {
     public class LoginCNPJDTO
     { 
-        public string Cnpj { get ; set; } 
-        public string Password { get ; set; } 
+        public string Cnpj { get ; set; } = string.Empty;
+        public string Password { get ; set; } = string.Empty;
 
     }
 }

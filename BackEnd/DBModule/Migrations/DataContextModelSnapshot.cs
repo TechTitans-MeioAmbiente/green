@@ -34,6 +34,7 @@ namespace TechTitansAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -66,6 +67,7 @@ namespace TechTitansAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("EmitedCo2")
@@ -122,6 +124,10 @@ namespace TechTitansAPI.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("CommonName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Geolocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

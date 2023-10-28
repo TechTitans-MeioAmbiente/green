@@ -1,3 +1,4 @@
+using UserAPI.Services.Picture;
 using UserAPI.Services.Tree;
 using UserAPI.Services.User;
 
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITreeService, TreeService>();
+builder.Services.AddScoped<IPictureService, PictureService>();
 builder.Services.AddScoped<HttpClient>();
 
 

@@ -1,4 +1,3 @@
-
 version: '3'
 services:
 
@@ -29,6 +28,16 @@ services:
     container_name: green_empresa_API
     ports:
       - "8082:80" # essa porta precisa ser configurada no terraform para que abra essa porta no security group, liberando o acesso
+    networks:
+      - network
+      
+  modulo-email:
+    build: 
+     context: ./EmailService/EmailService
+     dockerfile: Dockerfile
+    container_name: green_email-API
+    ports:
+      - "8083:80" # essa porta precisa ser configurada no terraform para que abra essa porta no security group, liberando o acesso
     networks:
       - network
 

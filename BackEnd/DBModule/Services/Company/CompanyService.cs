@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 using TechTitansAPI.Data;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
+using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.SecurityServices;
@@ -20,11 +22,22 @@ namespace TechTitansAPI.Services.Company
             _securityService = securityService;
         }
 
-        public async Task<CompanyModel?> GetCompanyAsync(int id)
+        public async Task<CompanyGetDTO?> GetCompanyAsync(int id)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == id);
-            if (company == null) return null;
+            var company = await _context.Companies
+                .Where(c => c.Id == id)
+                .Select(c => new CompanyGetDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Email = c.Email, 
+                    Cnpj = c.Cnpj, 
+                    EmitedCo2 = c.EmitedCo2,
+                })
+                .FirstOrDefaultAsync();
+            if (company == null) return null; 
             return company;
+            
         }
 
         public async Task<string> RegisterCompanyAsync(CompanyDTO dto)
@@ -35,7 +48,9 @@ namespace TechTitansAPI.Services.Company
                 Cnpj = dto.Cnpj,
                 Name = dto.Name, 
                 PasswordHash = passwordHash, 
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                Email = dto.Email,
+
         };
             await _context.Companies.AddAsync(companyModel);
             await _context.SaveChangesAsync();
@@ -58,7 +73,7 @@ namespace TechTitansAPI.Services.Company
             return "access allowed";
         }
 
-        public async Task<string?> UpdateCompanyAsync(int id, CompanyDTO request)
+        public async Task<string?> UpdateCompanyAsync(int id, CompanyPutDTO request)
         {
             var company = await _context.Companies.FindAsync(id);
             if (company == null) return null;
@@ -67,7 +82,8 @@ namespace TechTitansAPI.Services.Company
 
             company.Cnpj = request.Cnpj;
             company.Name = request.Name;
-            company.Email = request.Email;
+            company.Email = request.Email; 
+            company.EmitedCo2 = request.EmitedCo2;
             _securityService.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             company.PasswordHash = passwordHash;
             company.PasswordSalt = passwordSalt;
