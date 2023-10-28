@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.Services.AppUser;
 
@@ -61,17 +62,17 @@ namespace TechTitansAPI.Controllers
 
 		}
 		[HttpPost("login-cpf")] 
-		public async Task<ActionResult<string>> UserLoginByCPFAsync(string cpf, string password)
+		public async Task<ActionResult<string>> UserLoginByCPFAsync(LoginCPFDTO dto)
 		{
-			var response = await _service.UserLoginByCPFAsync(cpf, password);
+			var response = await _service.UserLoginByCPFAsync(dto);
 			if (response == null) return NotFound("User not found");
 			return response == "access allowed" ? Ok(response) : BadRequest(response);
 
         }
 		[HttpPost("login-email")]
-		public async Task<ActionResult<string>> UserLoginByEmailAsync(string email, string password)
+		public async Task<ActionResult<string>> UserLoginByEmailAsync(LoginEmailDTO dto)
         {
-			var response = await _service.UserLoginByCPFAsync(email, password);
+			var response = await _service.UserLoginByEmailAsync(dto);
 			if (response == null) return NotFound("User not found");
 			return response == "access allowed" ? Ok(response) : BadRequest(response);
         }

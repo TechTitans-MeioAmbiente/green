@@ -1,4 +1,5 @@
 ﻿using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 
 namespace TechTitansAPI.Services.Company
@@ -7,8 +8,8 @@ namespace TechTitansAPI.Services.Company
 	{
         Task<CompanyModel?> GetCompanyAsync(int id);
         Task<string> RegisterCompanyAsync(CompanyDTO dto);
-        Task<string> CompanyLoginByCNPJAsync(string cnpj, string password);
-        Task<string> CompanyLoginByEmailAsync(string email, string password);
+        Task<string> CompanyLoginByCNPJAsync(LoginCNPJDTO dto);
+        Task<string> CompanyLoginByEmailAsync(LoginEmailDTO dto);
         Task<string?> UpdateCompanyAsync(int id, CompanyDTO request);
         Task<string?> DeleteCompanyAsync(int id);
 

@@ -1,4 +1,5 @@
 ﻿using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 
 namespace TechTitansAPI.Services.AppUser
@@ -8,8 +9,8 @@ namespace TechTitansAPI.Services.AppUser
         Task<AppUserModel?> GetUserAsync(int id);
 		Task<List<TreeDTO>?> GetTreesByUserIdAsync (int id);
         Task<string> RegisterUserAsync(AppUserDTO dto);
-        Task<string> UserLoginByCPFAsync(string cpf, string password);
-        Task<string> UserLoginByEmailAsync(string email, string password);
+        Task<string> UserLoginByCPFAsync(LoginCPFDTO dto);
+        Task<string> UserLoginByEmailAsync(LoginEmailDTO dto);
         Task<string> UpdateUserAsync(AppUserUpdateDTO dto, int id);
         Task<string?> DeleteUserAsync(int id); 
     }

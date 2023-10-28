@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.Services.Company;
 
@@ -46,16 +47,16 @@ namespace TechTitansAPI.Controllers
 
         }
         [HttpPost("login-cnpj")]
-        public async Task<ActionResult<string>> CompanyLoginByCNPJAsync(string cnpj, string password)
+        public async Task<ActionResult<string>> CompanyLoginByCNPJAsync(LoginCNPJDTO dto)
         {
-            var response = await _service.CompanyLoginByCNPJAsync(cnpj, password); 
+            var response = await _service.CompanyLoginByCNPJAsync(dto); 
             if (response == null) return NotFound("Company not found");
             return response == "access allowed" ? Ok(response) : BadRequest(response);
         } 
         [HttpPost("login-email")]
-        public async Task<ActionResult<string>> CompanyLoginByEmailAsync(string email, string password)
+        public async Task<ActionResult<string>> CompanyLoginByEmailAsync(LoginEmailDTO dto)
         {
-            var response = await _service.CompanyLoginByCNPJAsync(email, password); 
+            var response = await _service.CompanyLoginByEmailAsync(dto); 
             if (response == null) return NotFound("Company not found");
             return response == "access allowed" ? Ok(response) : BadRequest(response);
         } 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using TechTitansAPI.Data;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.SecurityServices;
 
@@ -104,19 +105,19 @@ namespace TechTitansAPI.Services.AppUser
         }
 
 
-        public async Task<string> UserLoginByCPFAsync(string cpf, string password)
+        public async Task<string> UserLoginByCPFAsync(LoginCPFDTO dto)
         {
-            var user = await _context.AppUsers.FirstOrDefaultAsync(x => x.Cpf.ToLower().Equals(cpf.ToLower()));
+            var user = await _context.AppUsers.FirstOrDefaultAsync(x => x.Cpf.ToLower().Equals(dto.Cpf.ToLower()));
             if (user == null) return null;
-            if (!_securityService.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) return ("wrong password");
+            if (!_securityService.VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt)) return ("wrong password");
             return "access allowed";
         }
 
-        public async Task<string> UserLoginByEmailAsync(string email, string password)
+        public async Task<string> UserLoginByEmailAsync(LoginEmailDTO dto)
         {
-            var user = await _context.AppUsers.FirstOrDefaultAsync(x => x.Email.ToLower().Equals(email.ToLower()));
+            var user = await _context.AppUsers.FirstOrDefaultAsync(x => x.Email.ToLower().Equals(dto.Email.ToLower()));
             if (user == null) return null;
-            if (!_securityService.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) return ("wrong password");
+            if (!_securityService.VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt)) return ("wrong password");
             return "access allowed";
         }
 

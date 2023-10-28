@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using TechTitansAPI.Data;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.SecurityServices;
 
@@ -41,19 +42,19 @@ namespace TechTitansAPI.Services.Company
             return "registred";
         }
 
-        public async Task<string> CompanyLoginByCNPJAsync(string cnpj, string password)
+        public async Task<string> CompanyLoginByCNPJAsync(LoginCNPJDTO dto)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(x => x.Cnpj.ToLower().Equals(cnpj.ToLower()));
+            var company = await _context.Companies.FirstOrDefaultAsync(x => x.Cnpj.ToLower().Equals(dto.Cnpj.ToLower()));
             if (company == null) return null;
-            if (!_securityService.VerifyPasswordHash(password, company.PasswordHash, company.PasswordSalt)) return ("wrong password");
+            if (!_securityService.VerifyPasswordHash(dto.Password, company.PasswordHash, company.PasswordSalt)) return ("wrong password");
             return "access allowed";
         }
 
-        public async Task<string> CompanyLoginByEmailAsync(string email, string password)
+        public async Task<string> CompanyLoginByEmailAsync(LoginEmailDTO dto)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(x => x.Email.ToLower().Equals(email.ToLower()));
+            var company = await _context.Companies.FirstOrDefaultAsync(x => x.Email.ToLower().Equals(dto.Email.ToLower()));
             if (company == null) return null;
-            if (!_securityService.VerifyPasswordHash(password, company.PasswordHash, company.PasswordSalt)) return ("wrong password");
+            if (!_securityService.VerifyPasswordHash(dto.Password, company.PasswordHash, company.PasswordSalt)) return ("wrong password");
             return "access allowed";
         }
 
