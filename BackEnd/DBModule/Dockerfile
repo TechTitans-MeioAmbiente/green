@@ -3,6 +3,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 COPY ["appsettings.json", "appsettings.json"]
 EXPOSE 5008
+#aqui é por onde faremos requisições  mas a 5008 é onde expôs
+EXPOSE 80 
 EXPOSE 51759
 
 # Use a imagem base do SDK do ASP.NET Core para compilar o aplicativo

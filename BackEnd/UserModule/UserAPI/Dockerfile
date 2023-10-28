@@ -3,6 +3,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 COPY ["appsettings.json", "appsettings.json"]
 EXPOSE 8081
+EXPOSE 80
+EXPOSE 44359
+
+
 
 # Use a imagem base do SDK do ASP.NET Core para compilar o aplicativo
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
