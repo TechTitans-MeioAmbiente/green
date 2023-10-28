@@ -7,7 +7,7 @@ namespace UserAPI.Services.Picture
     public class PictureService : IPictureService
     {
         private readonly HttpClient _httpClient;
-        private readonly string urlAPI = "https://localhost:7122/api/Picture/";
+        private readonly string urlAPI = "http://modulodb:80/api/Picture/";
 
         public PictureService(HttpClient httpClient)
         {

@@ -15,7 +15,7 @@ namespace CompanyModule.HTTPServices
     public class HTTPService : IHTTPService
     {
         private readonly HttpClient _httpClient;
-        readonly string urlEmail = "https://localhost:7270/api/email";
+        readonly string urlEmail = "https://modulo-email:80/api/email"; //Refenciar o container de email exposto na 80
        
         private readonly string _urlAPI = "http://modulodb:80/api/Company/";//Isso serve para entrar no container 
         //chamado modulodb, que é o do banco de dados, se for usar localhost vai dar pau pq localmente no docker, 
