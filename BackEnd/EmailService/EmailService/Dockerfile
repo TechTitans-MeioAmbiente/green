@@ -1,11 +1,11 @@
 # Use a imagem base do ASP.NET Core
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 8082
 EXPOSE 80
 
 # Use a imagem base do SDK do ASP.NET Core para compilar o aplicativo
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["EmailService.csproj", "EmailService.csproj"]
 RUN dotnet restore "EmailService.csproj"

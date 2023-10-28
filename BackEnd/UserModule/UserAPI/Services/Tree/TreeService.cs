@@ -8,6 +8,7 @@ namespace UserAPI.Services.Tree
     public class TreeService : ITreeService
     { 
         private readonly HttpClient _httpClient; 
+        
         private readonly string _urlAPI = "http://modulodb:80/api/Tree/"; //Isso serve para entrar no container 
         //chamado modulodb, que é o do banco de dados, se for usar localhost vai dar pau pq localmente no docker, 
         //não há nada na porta 5008 - por isso é necessário entrar no container gerado na porta correta e fazer o 
