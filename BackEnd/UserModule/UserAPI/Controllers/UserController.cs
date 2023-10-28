@@ -18,7 +18,7 @@ namespace UserAPI.Controllers
         }
 
         [HttpGet("user/{id}")]
-        public async Task<ActionResult<string>> GetUser(int id)
+        public async Task<ActionResult<AppUserGetDTO>> GetUser(int id)
         {
             try
             {
@@ -31,26 +31,27 @@ namespace UserAPI.Controllers
             }
         }
 
-        [HttpGet("tree/{id}")]
-        public async Task<ActionResult<string>> GetTreesByUserId(int id)
-        {
-            try
-            {
-                var result = await _userService.GetTreesByUserIdHTTPAsync(id);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        /* [HttpGet("tree/{id}")]
+         public async Task<ActionResult<List<TreeDTO>>> GetTreesByUserId(int id)
+         {
+             try
+             {
+                 var result = await _userService.GetTreesByUserIdHTTPAsync(id);
+                 return Ok(result);
+             }
+             catch (Exception ex)
+             {
+                 return BadRequest(ex.Message);
+             }
+         }*/
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<ActionResult<string>> RegisterUser(AppUserDTO dto)
         {
             try
             {
                 var response = await _userService.RegisterUserHTTP(dto);
+                if (response != "registred") return NotFound(response);
                 return response;
             }
             catch (Exception ex)
@@ -58,35 +59,37 @@ namespace UserAPI.Controllers
                 return BadRequest(ex.Message);
             }
 
-        }
+        }*/
 
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult<string>> UpdateUserAsync(AppUserUpdateDTO dto, int id)
-        {
-            try
-            {
-                var response = await _userService.UpdateUserHTTP(dto, id);
-                return response;
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        /* [HttpPut("update/{id}")]
+         public async Task<ActionResult<string>> UpdateUserAsync(AppUserUpdateDTO dto, int id)
+         {
+             try
+             {
+                 var response = await _userService.UpdateUserHTTP(dto, id);
+                 if (response == "User not found") return NotFound(response);
+                 return response == "updated" ? Ok(response) : BadRequest(response);
+             }
+             catch (Exception e)
+             {
+                 return BadRequest(e.Message);
+             }
+         }*/
 
-        [HttpDelete("delete/{id}")]
+        /*[HttpDelete("delete/{id}")]
         public async Task<ActionResult<string>> DeleteUserAsync(int id)
         {
             try
             {
                 var response = await _userService.DeleteUserHTTPAsync(id);
-                return response;
+                if (response == "User not found") return NotFound(response);
+                return response == "deleted" ? Ok(response) : BadRequest(response);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-        }
+        }*/
 
 
 

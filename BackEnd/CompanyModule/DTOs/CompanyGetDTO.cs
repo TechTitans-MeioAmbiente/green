@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
-namespace TechTitansAPI.Models
+
+namespace TechTitansAPI.DTOs.GetDTOs
 {
-	public class CompanyModel
-	{
+    public class CompanyGetDTO
+    {
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("email")]
@@ -12,15 +13,11 @@ namespace TechTitansAPI.Models
         public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("emitedCo2")]
-        public double EmitedCo2 { get; set; }
+        public double EmitedCo2 { get; set; } 
 
         [JsonPropertyName("cnpj")]
         public string Cnpj { get; set; } = string.Empty;
 
-        [JsonPropertyName("passwordHash")]
-        public byte[] PasswordHash { get; set; }
 
-        [JsonPropertyName("passwordSalt")]
-        public byte[] PasswordSalt { get; set; }
     }
 }

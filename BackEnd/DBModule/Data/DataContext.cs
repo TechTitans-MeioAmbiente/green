@@ -10,7 +10,7 @@ namespace TechTitansAPI.Data
 
 		public DbSet<PictureModel> Pictures { get; set; }
 		public DbSet<CompanyModel> Companies { get; set; }
-		public DbSet<AppUserModel> AppUsers { get; set; }
+		public DbSet<AppUserModel> AppUsers { get; set; } 
 		public DbSet<TreeModel> Trees { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

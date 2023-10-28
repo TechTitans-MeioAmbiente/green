@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
+using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 
@@ -20,7 +22,7 @@ namespace CompanyModule.HTTPServices
             _httpClient = httpClient;
         }
 
-        public async Task<CompanyModel> GetCompanyByIdHTTP(int id)
+        public async Task<CompanyGetDTO> GetCompanyByIdHTTP(int id)
         {
 
             string urlAPI = $"{_urlAPI}company/{id}";
@@ -30,7 +32,7 @@ namespace CompanyModule.HTTPServices
                 if (response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    var companyModel = JsonSerializer.Deserialize<CompanyModel>(responseBody);
+                    var companyModel = JsonSerializer.Deserialize<CompanyGetDTO>(responseBody);
 
                     return companyModel;
                 }
@@ -64,7 +66,7 @@ namespace CompanyModule.HTTPServices
                 return ex.Message;
             }
         }
-        public async Task<CompanyModel> UpdateCompanyByIdHTTP(CompanyDTO dto, int id)
+        public async Task<string> UpdateCompanyByIdHTTP(CompanyPutDTO dto, int id)
         {
             var urlAPI = $"{_urlAPI}{id}";
             try
@@ -76,13 +78,13 @@ namespace CompanyModule.HTTPServices
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var updatedCompany = JsonSerializer.Deserialize<CompanyModel>(await response.Content.ReadAsStringAsync());
-                    return updatedCompany;
+                     return await response.Content.ReadAsStringAsync();
                 }
-                else
+                else if ((int)response.StatusCode == 404)
                 {
-                    return null;
+                    return "Company not found";
                 }
+                return "error";
                 
 
             }catch(Exception ex)
@@ -95,9 +97,13 @@ namespace CompanyModule.HTTPServices
             var urlAPI = $"{_urlAPI}{id}";
             try
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync(urlAPI);
-                if (response.IsSuccessStatusCode) return await response.Content.ReadAsStringAsync();
-                else return null;
+                HttpResponseMessage response = await _httpClient.DeleteAsync(urlAPI); 
+                string responseText = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode) return responseText;
+                else if ((int)response.StatusCode == 404) return "Company not found"; 
+                else if ((int)response.StatusCode == 400) return "Error";
+                return responseText;
+
             }
             catch (Exception ex)
             {

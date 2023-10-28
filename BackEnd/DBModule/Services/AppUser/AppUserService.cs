@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 using TechTitansAPI.Data;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
+using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 using TechTitansAPI.SecurityServices;
@@ -66,7 +68,8 @@ namespace TechTitansAPI.Services.AppUser
                 var userModel = new AppUserModel
                 {
                     Name = dto.Name,
-                    Cpf = dto.Cpf,
+                    Cpf = dto.Cpf, 
+                    Email = dto.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt
                 };
@@ -116,7 +119,8 @@ namespace TechTitansAPI.Services.AppUser
 
             var trees = await _context.Trees.Where(t => dto.TreeIDs.Contains(t.Id)).ToListAsync();
 
-            if (trees.Any()) { user.Trees.AddRange(trees); }
+            if (trees.Any()) { user.Trees.AddRange(trees); } 
+            user.Email = dto.Email;
             user.Cpf = dto.Cpf;
             user.Name = dto.Name;
             _securityService.CreatePasswordHash(dto.Password, out byte[] passwordHash, out byte[] passwordSalt);

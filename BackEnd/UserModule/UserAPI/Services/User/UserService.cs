@@ -13,44 +13,61 @@ namespace UserAPI.Services.User
     public class UserService : IUserService
     {
         readonly string urlApiBanco = "https://localhost:7122/api/AppUser/";
+        private readonly HttpClient _httpClient;
 
+        public UserService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
 
-
-        public async Task<string> GetTreesByUserIdHTTPAsync(int id)
+        public async Task<List<TreeDTO>?> GetTreesByUserIdHTTPAsync(int id)
         {
             using var HttpClient = new HttpClient();
             try
             {
                 HttpResponseMessage response = await HttpClient.GetAsync($"{urlApiBanco}Tree/{id}");
-                return await response.Content.ReadAsStringAsync();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var treeList = JsonSerializer.Deserialize<List<TreeDTO>>(responseBody);
+                return treeList;
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return null;
             }
         }
 
-        public async Task<string?> GetUserHTTP(int id)
+        public async Task<AppUserGetDTO> GetUserHTTP(int id)
         {
-            using var HttpClient = new HttpClient();
+            
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{urlApiBanco}user/{id}");
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{urlApiBanco}user/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var userModel = JsonSerializer.Deserialize<AppUserGetDTO>(responseBody);
 
-            return await response.Content.ReadAsStringAsync();
-
-
+                    return userModel;
+                }
+                else return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
 
         }
 
         public async Task<string> RegisterUserHTTP(AppUserDTO dto)
         {
-            using var HttpClient = new HttpClient();
+            
             try
             {
                 string jsonContent = JsonSerializer.Serialize(dto);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await HttpClient.PostAsync(urlApiBanco, content);
+                HttpResponseMessage response = await _httpClient.PostAsync(urlApiBanco, content); 
 
 
                 return await response.Content.ReadAsStringAsync();
@@ -63,14 +80,13 @@ namespace UserAPI.Services.User
 
         public async Task<string> UpdateUserHTTP(AppUserUpdateDTO dto, int id)
         {
-            using var HttpClient = new HttpClient();
+            
             try
             {
                 string jsonContent = JsonSerializer.Serialize(dto);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await HttpClient.PutAsJsonAsync($"{urlApiBanco}update/{id}", dto);
-
+                HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"{urlApiBanco}update/{id}", dto);
 
                 return await response.Content.ReadAsStringAsync();
             }
@@ -82,10 +98,10 @@ namespace UserAPI.Services.User
 
         public async Task<string> DeleteUserHTTPAsync(int id)
         {
-            using var HttpClient = new HttpClient();
+           
             try
             {
-                HttpResponseMessage response = await HttpClient.DeleteAsync($"{urlApiBanco}delete/{id}");
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{urlApiBanco}delete/{id}");
 
                 return await response.Content.ReadAsStringAsync();
             }

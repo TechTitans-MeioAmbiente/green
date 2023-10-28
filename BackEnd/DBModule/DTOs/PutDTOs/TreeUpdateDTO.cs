@@ -1,9 +1,9 @@
 ﻿using TechTitansAPI.Models;
 
-namespace TechTitansAPI.DTOs
+namespace TechTitansAPI.DTOs.PutDTOs
 {
-	public class TreeUpdateDTO
-	{
+    public class TreeUpdateDTO
+    {
         public string ScientificName { get; set; } = string.Empty;
         public string CommonName { get; set; } = string.Empty;
         public TreeExtinctionIndex TreeExtinctionIndex { get; set; }

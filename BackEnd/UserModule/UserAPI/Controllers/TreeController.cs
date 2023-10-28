@@ -16,21 +16,21 @@ namespace UserAPI.Controllers
         {
             _service = service;
         }
-        [HttpGet("id")] 
-        public async Task<ActionResult<TreeModel>> GetTreeByIdAsync(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TreeGetDTO>> GetTreeByIdAsync(int id)
         {
             try
             {
                 var response = await _service.GetTreeHTTPAsync(id);
                 if (response == null) return NotFound("Tree not found");
                 return Ok(response);
-            } 
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost] 
+        [HttpPost]
         public async Task<ActionResult<string>> RegisterTreeAsync(TreeDTO dto)
         {
             try
@@ -44,7 +44,7 @@ namespace UserAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<string>> UpdateTreeAsync(TreeUpdateDTO dto, int id)
         {
             try
@@ -58,7 +58,7 @@ namespace UserAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("id")] 
+        [HttpDelete("{id}")]
         public async Task<ActionResult<string>> DeleteTreeByIdAsync(int id)
         {
             try

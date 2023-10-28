@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 
@@ -76,12 +77,13 @@ namespace CompanyModule.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<CompanyModel>> UpdateCompany(int id, CompanyDTO request)
+        public async Task<ActionResult<string>> UpdateCompany(int id, CompanyPutDTO request)
         {
             try
             {
                 var response = await _service.UpdateCompanyByIdHTTP(request, id);
-                if (response == null) return NotFound("Company not found");
+                if (response == "Company not found") return NotFound(response);
+                else if (response == "error") return BadRequest(response); 
                 return Ok(response);
             }
             catch (Exception ex)
@@ -95,8 +97,9 @@ namespace CompanyModule.Controllers
             try
             {
                 var response = await _service.DeleteCompanyByIdHTTP(id);
-                if (response == null) return NotFound("Company not found");
-                return Ok(response);
+                if (response == "Company not found") return NotFound("response");
+                if (response == "error") return BadRequest(response);
+                return response == "deleted" ? Ok(response) : BadRequest(response);
             }
             catch (Exception ex)
             {

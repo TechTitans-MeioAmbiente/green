@@ -14,7 +14,7 @@ namespace UserAPI.Services.Tree
         {
             _httpClient = httpClient;
         }
-        public async Task<TreeModel?> GetTreeHTTPAsync(int id)
+        public async Task<TreeGetDTO?> GetTreeHTTPAsync(int id)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace UserAPI.Services.Tree
                 if (response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    var treeModel = JsonSerializer.Deserialize<TreeModel>(responseBody);
+                    var treeModel = JsonSerializer.Deserialize<TreeGetDTO>(responseBody);
 
                     return treeModel;
                 }

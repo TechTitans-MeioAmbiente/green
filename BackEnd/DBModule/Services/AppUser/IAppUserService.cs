@@ -1,4 +1,6 @@
 ﻿using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
+using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
 

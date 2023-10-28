@@ -1,4 +1,4 @@
-﻿namespace UserAPI.DTOs
+﻿namespace TechTitansAPI.DTOs.PutDTOs
 {
     public class AppUserUpdateDTO
     {
