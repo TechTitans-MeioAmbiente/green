@@ -20,7 +20,7 @@ namespace TechTitansAPI.Controllers
 			_service = service;
 		}
 
-		[HttpGet("tree/{id}")]
+		[HttpGet("{id}")]
 		public async Task<ActionResult<TreeGetDTO>> GetTreeAsync(int id)
 		{
 			try
