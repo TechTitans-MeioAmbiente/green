@@ -18,7 +18,7 @@ namespace TechTitansAPI.Controllers
         {
             _service = service;
         }
-        [HttpGet("company/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CompanyModel>> GetCompanyAsync(int id)
         {
             try
