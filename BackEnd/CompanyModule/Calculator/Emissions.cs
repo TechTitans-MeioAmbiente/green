@@ -2,10 +2,9 @@
 {
     public class Emissions
     {
-        public static double DirectEmissionCars(int nCars,
-            double AverageConsumption /*/ em km/litro /*/,
-            double AverageDailyDistance /*/ em km para cada carro /*/)
+        public static double DirectEmissionCars(int nCars, double AverageConsumption /*/ em km/litro /*/, double AverageDailyDistance /*/ em km para cada carro /*/)
         {
+            if (AverageConsumption >= 0) return -1;
             // Fatores de emissão
             double efCo2 = 2.36; // kg/litro
             double efCh4 = 0.253; // g/litro (será convertido para kg)
@@ -26,6 +25,8 @@
             double TotalCarsEmission = emission * nCars;
 
             return TotalCarsEmission;
+
+            
         }
         public static double AirConditioningFugitiveEmission(int nDevices, int power /*/ btus - aqui temos que setar apenas 2 escolhas: 9000 ou 12000 btus pq sabemos o kg_refrigerante apenas destes 2/*/)
         {
