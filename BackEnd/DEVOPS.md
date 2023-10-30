@@ -6,7 +6,7 @@ Este documento fornece um guia passo a passo sobre como preparar e dockerizar su
 Localize o arquivo `docker-compose.yml` na pasta inicial do projeto. Este arquivo é responsável por orquestrar todos os containers necessários para sua aplicação.
 
 #### Conteúdo básico do `docker-compose.yml`:
-\```
+```dockerfile
 version: '3'
 
 services:
@@ -35,7 +35,7 @@ networks:
   default:
     external:
       name: my-net
-\```
+```
 
 **Notas**:
 - O formato de portas "8080:80" indica que a porta 8080 do seu localhost será mapeada para a porta 80 do container.
@@ -46,7 +46,7 @@ networks:
 Cada aplicação (módulo) em C# precisa de seu próprio Dockerfile. Este arquivo descreve como construir a imagem do Docker para a aplicação.
 
 #### Exemplo de `Dockerfile`:
-\```
+```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -66,7 +66,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MyApp.dll"]
-\```
+```
 
 **Notas**:
 - Certifique-se de ajustar "MyApp/MyApp.csproj" e "MyApp.dll" para o nome correto do seu projeto.
@@ -77,13 +77,13 @@ As rotas da API precisam ser ajustadas para se comunicar corretamente entre os c
 
 **Por exemplo**:
 Mude de:
-\```csharp
+```csharp
 "http://localhost:7119/api/UserApp/User/{id}"
-\```
+```
 Para:
-\```csharp
+```csharp
 "http://modulodb/api/UserApp/User/{id}"
-\```
+```
 
 Neste exemplo, `modulodb` é o nome do serviço (container) que hospeda a API do banco de dados.
 
