@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "665218291966",
+    "project_id": "green-hackweek-59057",
+    "storage_bucket": "green-hackweek-59057.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665218291966:android:14eeea44a9f209236c2daf",
+        "android_client_info": {
+          "package_name": "com.mycompany.greenhackweek"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0NEaykT-yAvbinXwDK7jC0JbyqyqXjoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
