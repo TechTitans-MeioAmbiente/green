@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TechTitansAPI.DTOs;
+using TechTitansAPI.DTOs.GetDTOs;
 using TechTitansAPI.DTOs.PutDTOs;
 using TechTitansAPI.DTOs.SecurityDTOs;
 using TechTitansAPI.Models;
@@ -19,7 +20,7 @@ namespace CompanyModule.Controllers
             _service = service;
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<CompanyModel>> GetCompanyAsync(int id)
+        public async Task<ActionResult<CompanyGetDTO>> GetCompanyAsync(int id)
         {
            try
             {

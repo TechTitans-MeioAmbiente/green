@@ -43,6 +43,7 @@
 
 <div style="display: flex; justify-content: center; align-items: center; padding: 5px;"> 
 <img src="imgs/img-3.png" alt="">
+<img src="imgs/img-3.1.png" alt="">
 </div>
 
 #### Consideraremos as emissões provenientes de translados dos funcionários, ar-condicionados e gastos energéticos.
@@ -84,6 +85,7 @@
   
   <div style="display: flex; justify-content: center; align-items: center; padding: 5px; flex-wrap: wrap; gap: 5px;"> 
 <img src="imgs/img-11.png" alt="">
+<img src="imgs/img-11.1.png" alt="">
 </div>
 
 ## Módulo Pesssoal 🧑
@@ -98,15 +100,12 @@
 
 <div style="display: flex; justify-content: center; align-items: center; padding: 5px; flex-wrap: wrap; gap: 5px;"> 
 <img src="imgs/img-13.png" alt="">
+<img src="imgs/img-13.1.png" alt="">
 <img src="imgs/img-14.png" alt="">
 </div>
 
 - ##### Ver a lista com suas espécies plantadas, se já foram vendidos e o carbono estocado;
 - ##### Um mapa com a localização das espécies plantadas pelo próprio usuário.
-
- <div style="display: flex; justify-content: center; align-items: center; padding: 5px; flex-wrap: wrap; gap: 5px;"> 
-<img src="imgs/img-15.png" alt="">
-</div>
  
 ## Back-end ⌨️
 

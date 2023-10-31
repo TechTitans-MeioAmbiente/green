@@ -4,7 +4,7 @@
     {
         public static double DirectEmissionCars(int nCars, double AverageConsumption /*/ em km/litro /*/, double AverageDailyDistance /*/ em km para cada carro /*/)
         {
-            if (AverageConsumption >= 0) return -1;
+            if (AverageConsumption <= 0) return -1;
             // Fatores de emissão
             double efCo2 = 2.36; // kg/litro
             double efCh4 = 0.253; // g/litro (será convertido para kg)
