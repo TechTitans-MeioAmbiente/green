@@ -24,7 +24,8 @@ git clone https://github.com/TechTitans-MeioAmbiente/green
       "Microsoft.AspNetCore": "Warning"
     }
   },
-  "AllowedHosts": "*"
+  "AllowedHosts": "*" 
+}
 ``` 
 ### Em "DefaultConnection" você deve colocar a string de conexão com o seu banco de dados, seja ele local ou na nuvem.  
 ### Após isso, você terá que abrir o "Console do Gerenciador de Pacotes" e executar o seguinte comando: 
@@ -56,7 +57,36 @@ update-database
 - ### <span style="color: #77559e;">Services</span> -> Contém os serviços de PictureModel, TreeModel e AppUserModel. É através desses serviços junto à classe HttpClient que as requisições são feitas para o DBModule. 
 - ### <span style="color: #77559e;">Models</span> -> Contém as classes AppUserModel e TreeModel que servem como base para as classes DTOs. 
 - ### <span style="color: #77559e;">DTOs</span> -> Contém todas as classes DTOs da aplicação, incluindo classes destinadas a métodos GET, POST e PUT. 
-- ### <span style="color: #77559e;">Controllers</span> -> Contém as classes controladoras, que servem para definir as requisições HTTP e as respectivas rotas que uma API pode fornecer. Todas as classes controladoras acessam os dados de DBModule através de uma injeção de dependências das interfaces services. As três classes controladoras contidas em Controllers são: PictureController, TreeController e UserController. 
+- ### <span style="color: #77559e;">Controllers</span> -> Contém as classes controladoras, que servem para definir as requisições HTTP e as respectivas rotas que uma API pode fornecer. Todas as classes controladoras acessam os dados de DBModule através de uma injeção de dependências das interfaces services. As três classes controladoras contidas em Controllers são: PictureController, TreeController e UserController.  
+ 
+## 2.2.1 - Documentação das rotas: 
+### UserController: 
+### <span style="color: #61affe;">HTTPGET</span>: 
+- ### [URL da API]/user/{id}: Retorna uma string com os dados públicos do usuário, ou uma mensagem de erro se o usuário não existir no banco.
+- ### [URL da API]/tree/{id}: Retorna uma string com todas as árvores que um usuário possui através do ID do usuário, ou uma mensagem de erro se o usuário não existir no banco 
+ 
+### <span style="color: #49cc90;">HTTPPOST</span>: 
+- ### [URL da API]: Cria um usuário no banco, retornando uma string “registred” se for bem sucedido, ou uma mensagem de erro se houver algum problema na hora de envio. 
+ 
+###  <span style="color: #fca130;">HTTPPUT</span>: 
+- ### [URL da API]/update/{id}: Atualiza o CPF, Nome e as árvores(através de seus IDs) que o usuário possui através de seu ID, retornando uma string “updated”, ou uma mensagem de erro se o usuário não existir no banco. 
+ 
+###  <span style="color: #f93e3e;">HTTPDELETE</span>: 
+- ### [URL da API]/delete/{id}: Deleta um usuário e as árvores que ele possui através de seu ID, retornando uma string “deleted” se for feito com sucesso, ou uma mensagem de erro se o usuário não existir no banco. 
+ 
+ ### TreeController: 
+ ### <span style="color: #61affe;">HTTPGET</span>: 
+ - ### [URL da API]/{id}: Retorna uma string com os dados de uma árvore através de seu ID, ou uma mensagem de erro se a árvore não existir no banco. 
+ ### <span style="color: #49cc90;">HTTPPOST</span>: 
+ - ### [URL da API]: Cria uma árvore no banco com o ID de seu dono e seus outros dados, e retorna uma string “registred”, ou uma mensagem de erro se houver algum erro na hora de envio. 
+ ### <span style="color: #fca130;">HTTPPUT</span>: 
+ - ### [URL da API]/{id}: Atualiza os dados de uma árvore através de seu ID, retornando uma string “updated”, ou uma mensagem de erro caso a árvore não exista no banco.
+ ### <span style="color: #f93e3e;">HTTPDELETE</span>: 
+ - ### [URL da API]/{id}: Deleta uma árvore no banco através de seu ID, retornando uma string “deleted”, ou uma mensagem de erro caso a árvore não exista no banco. 
+  
+### PictureController: 
+### <span style="color: #49cc90;">HTTPPOST</span>:
+- ### [URL da API]/{id}: Cria uma foto no banco com o ID de sua árvore e seus outros dados (os bytes da imagem e o ID da árvore), e retorna uma resposta HTTP “Ok”, uma “BadRequest” se houver algum erro na hora de envio, ou uma “NotFound” se o ID da árvore na foto não existir no banco.
  
 ## 2.3 CompanyModule. 💼
 ### - Introdução 📖
@@ -67,7 +97,27 @@ update-database
   - ### <span style="color: #77559e;">HTTPServices</span> -> Como o próprio nome sugere, contém as classes e interfaces services relacionadas às requisições HTTP sendo elas, respectivamente, HTTPService e IHTTPService.
    - ### <span style="color: #77559e;">DTOs</span> -> Contém as DTOs que são utilizadas para a transferência de dados via requisições HTTP. Contém também a pasta SecurityDTOs, que contém duas classes, LoginCNPJDTO e LoginEmailDTO, que são utilizadas para a autenticação através do CNPJ e senha ou Email e senha da empresa. 
   - ### <span style="color: #77559e;">Controller</span> -> Contém os controladores que são responsáveis pelas rotas da API que recebem requisições HTTP. CompanyController contém uma injeção de dependência de IHTTPService para se comunicar com o DBModule, enquanto o CalculatorController contém uma injeção de dependências de ICalculatorService, usada para o cálculo de emissões de CO2
-  - ### <span style="color: #77559e;">Calculator</span> ->  Contém a classe Emissions, que é responsável por todos os cálculos de emissão de CO2. Contém também duas pastas, sendo elas CalculatorMdoels, que contém os modelos para o recebimento de dados, e CalculatorServices, que contém a classe CalculatorService e a interface ICalculatorService, que são responsáveis pelos cálculos e são acessadas através de injeção de dependências no CalculatorController,.  
+  - ### <span style="color: #77559e;">Calculator</span> ->  Contém a classe Emissions, que é responsável por todos os cálculos de emissão de CO2. Contém também duas pastas, sendo elas CalculatorMdoels, que contém os modelos para o recebimento de dados, e CalculatorServices, que contém a classe CalculatorService e a interface ICalculatorService, que são responsáveis pelos cálculos e são acessadas através de injeção de dependências no CalculatorController,.   
+   
+  ## 2.3.1 Documentação das rotas: 
+  ### CompanyController: 
+  ### <span style="color: #61affe;">HTTPGET</span>: 
+  - ### [URL da API]/{id}: Retorna os dados de uma empresa através de seu ID, ou uma mensagem de erro caso a empresa não exista no banco. 
+  ### <span style="color: #49cc90;">HTTPPOST</span>: 
+  - ### [URL da API]: Cria uma empresa no banco, retornando uma string “registred” se for bem sucedido, ou uma mensagem de erro se houver algum problema na hora de envio. 
+  - ### [URL da API]/login-cnpj: Faz o login da empresa através de seu CNPJ, retornando uma resposta HTTP “Ok”, ou uma “BadRequest” caso aconteça algum erro na hora do login. 
+  - ### [URL da API]/login-email: Faz o login da empresa através de seu email, retornando uma resposta HTTP “Ok”, ou uma “BadRequest” caso aconteça algum erro na hora do login. 
+  ### <span style="color: #fca130;">HTTPPUT</span>: 
+  - ### [URL da API]/{id}: Atualiza o nome, CNPJ e email de uma empresa através de sua ID, retornando uma resposta HTTP “Ok”, ou uma “BadRequest” se a empresa não existir no banco. 
+  ### <span style="color: #f93e3e;">HTTPDELETE</span>: 
+  - ### [URL da API]/{id}: Deleta uma empresa através de sua ID, retornando uma resposta HTTP “Ok” se for feito com sucesso, ou “BadRequest” se a empresa não existir no banco. 
+   
+  ### CalculatorController: 
+  ### <span style="color: #49cc90;">HTTPPOST</span>: 
+  - ### [URL da API]/car: Aceita o número de carros, consumo médio de gasolina em km/litro, e a distância diária percorrida por cada carro em km como parâmetro, e retorna o total de Co2 produzido pelos carros, ou uma mensagem de erro caso aconteça algum erro na hora de enviar. 
+  - ### [URL da API]/air-conditioning: Aceita como parâmetro o número de dispositivos, e a energia gasta em btus (British Thermal Units), retornando o total de Co2 emitido pelos dispositivos, ou uma mensagem de erro caso aconteça algum erro na hora de enviar. 
+  - ### [URL da API]/energy: Aceita como parâmetro a média de consumo de energia mensal em KWh, retornando a emissão de Co2 anual, ou uma mensagem de erro caso aconteça algum erro na hora de enviar. 
+
    
  ## 2.4 EmailModule. 📧  
  ### - Introdução 📖
@@ -76,7 +126,11 @@ update-database
  - ### <span style="color: #77559e;">Program.cs</span> -> É onde toda a aplicação é executada. Com o método AddScope<> as injeções de dependências de IMenssageService podem ser realizadas. 
  - ### <span style="color: #77559e;">Services</span> -> Contém a class MessageService e a interface IMessageService que são responsáveis pelo envio de e-mais. 
  - ### <span style="color: #77559e;">DTOs</span> -> Contém a classe EmailDTO que é utilizada como molde para o envio de e-maisl.
- - ### <span style="color: #77559e;">Controllers</span> -> Contém o controlador EmailController, que é responsável pelas rotas das requisições HTTP. 
+ - ### <span style="color: #77559e;">Controllers</span> -> Contém o controlador EmailController, que é responsável pelas rotas das requisições HTTP.  
+  
+## 2.4.1 Documentação das rotas: 
+### <span style="color: #49cc90;">HTTPPOST</span>:
+- ### [URL da API]: Aceita como parâmetros o destinatário (to), o assunto (subject), e o corpo/conteúdo (body). Retorna uma resposta HTTP “Ok” depois de enviar.
   
 ## 3. Observações. 🔍
 ### gostaríamos de implementar JWT e Oauth2 no nosso projeto, mas infelizmente não coube no nosso cronograma. 
