@@ -42,7 +42,7 @@ namespace UserAPI.Services.User
             
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{urlApiBanco}user/{id}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{urlApiBanco}{id}");
 
                 if (response.IsSuccessStatusCode)
                 {

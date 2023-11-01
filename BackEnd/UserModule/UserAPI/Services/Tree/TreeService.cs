@@ -18,7 +18,7 @@ namespace UserAPI.Services.Tree
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_urlAPI}tree/{id}"); 
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_urlAPI}{id}"); 
                 if (response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();

@@ -27,7 +27,7 @@ namespace CompanyModule.HTTPServices
         public async Task<CompanyGetDTO> GetCompanyByIdHTTP(int id)
         {
 
-            string urlAPI = $"{_urlAPI}company/{id}";
+            string urlAPI = $"{_urlAPI}{id}";
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync(urlAPI);

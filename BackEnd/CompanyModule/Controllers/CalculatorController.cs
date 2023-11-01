@@ -2,8 +2,10 @@
 using CompanyModule.Calculator.CalculatorServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
-using System.Text.Json;
+using Newtonsoft.Json;
+using System.Text.Json;  
+
+
 
 namespace CompanyModule.Controllers
 {
@@ -12,25 +14,18 @@ namespace CompanyModule.Controllers
     public class CalculatorController : ControllerBase
     {
         private readonly ICalculatorService _service;
-
+       
         public CalculatorController(ICalculatorService service)
         {
             _service = service;
-
-            // Configure a opção para permitir números especiais durante a serialização JSON
-            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
-            {
-                NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
-            };
-
            
         }
 
         [HttpPost("car")] 
         public async Task<ActionResult<double>> CalculateTotalCarEmissionsAsync(CarCalculatorModel model)
         {
-            var calculation = _service.CalculateTotalCarEmissions(model);
-            return Ok(calculation);
+            var calculation = _service.CalculateTotalCarEmissions(model); 
+            return calculation != -1 ? Ok(calculation) : BadRequest("Impossible calculation");
 
         }
         [HttpPost("air-conditioning")]
