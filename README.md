@@ -111,14 +111,19 @@
 ## Back-end ⌨️
 
 <div style="display:flex; gap: 7px">
+<img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white" alt="">
+
 <img src="https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white" alt="">
+
 <img src="https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white" alt="">
 <img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white
 " alt="">
 
 </div>
 
-#### Este repositório contém um backend modularizado em C# que consiste em diferentes módulos para lidar com várias funcionalidades relacionadas a empresas, pessoas físicas, API do banco, mensageria de e-mails e muito mais.
+#### Este repositório contém um backend modularizado em C# que consiste em diferentes módulos para lidar com várias funcionalidades relacionadas a empresas, pessoas físicas, API do banco, mensageria de e-mails e muito mais. 
+ 
+ * ### [Clique aqui para a documentação completa do funcionamento](https://github.com/TechTitans-MeioAmbiente/green/blob/main/BackEnd/back-end.md)
 
 ## Módulo Empresarial 💼
 
